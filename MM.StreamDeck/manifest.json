@@ -1,0 +1,38 @@
+{
+  "Actions": [
+    {
+      "Icon": "Images/icon",
+      "Name": "Show/Toggle Status",
+      "States": [
+        {
+          "Image": "Images/pluginAction",
+          "TitleAlignment": "middle",
+          "FontSize": "12"
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "Show/Toggle status",
+      "UUID": "com.mongeon.mm.statustoggle",
+      "PropertyInspectorPath": "PropertyInspector/PluginActionPI.html"
+    }
+  ],
+  "Author": "Mongeon",
+  "Name": "MM.StreamDeck",
+  "Description": "Manage MatterMost from your Stream Deck",
+  "Icon": "Images/pluginIcon",
+  "URL": "http://www.gabrielmongeon.ca",
+  "Version": "1.0",
+  "CodePath": "com.mongeon.mm.exe",
+  "Category": "Mattermost",
+  "CategoryIcon": "Images/categoryIcon",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "4.9"
+  }
+}
