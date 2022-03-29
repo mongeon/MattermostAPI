@@ -21,7 +21,7 @@
   "Description": "Manage MatterMost from your Stream Deck",
   "Icon": "Images/pluginIcon",
   "URL": "http://www.gabrielmongeon.ca",
-  "Version": "1.0",
+  "Version": "0.1",
   "CodePath": "com.mongeon.mm.exe",
   "Category": "Mattermost",
   "CategoryIcon": "Images/categoryIcon",
