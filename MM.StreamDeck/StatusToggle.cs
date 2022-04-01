@@ -31,8 +31,8 @@ public class StatusToggle : PluginBase
             return instance;
         }
 
-        [JsonProperty(PropertyName = "backgroundColor")]
-        public string BackgroundColor { get; set; }
+		[JsonProperty(PropertyName = "backgroundColor")]
+		public string BackgroundColor { get; set; }
 
         [FilenameProperty]
         [JsonProperty(PropertyName = "backgroundImage")]
@@ -54,10 +54,10 @@ public class StatusToggle : PluginBase
         public int DndDuration { get; set; }
     }
 
-    #region Private Members
+	#region Private Members
 
-    private readonly PluginSettings settings;
-    private DateTime lastRefresh;
+	private readonly PluginSettings settings;
+	private DateTime lastRefresh;
 
     #endregion
     public StatusToggle(SDConnection connection, InitialPayload payload) : base(connection, payload)
@@ -80,14 +80,14 @@ public class StatusToggle : PluginBase
         }
     }
 
-    public override void Dispose()
-    {
-        Logger.Instance.LogMessage(TracingLevel.INFO, "Destructor called");
-    }
+	public override void Dispose()
+	{
+		Logger.Instance.LogMessage(TracingLevel.INFO, "Destructor called");
+	}
 
-    public override async void KeyPressed(KeyPayload payload)
-    {
-        Logger.Instance.LogMessage(TracingLevel.INFO, "Key Pressed");
+	public override async void KeyPressed(KeyPayload payload)
+	{
+		Logger.Instance.LogMessage(TracingLevel.INFO, "Key Pressed");
 
         if (settings.IsToggle)
         {
@@ -114,42 +114,42 @@ public class StatusToggle : PluginBase
         return await client.UpdateUserStatus(newStatus, settings.DndDuration);
     }
 
-    private async Task<UserStatus> GetStatus()
-    {
-        var client = await GetAuthenticatedClient();
-        return await client.GetStatus();
-    }
+	private async Task<UserStatus> GetStatus()
+	{
+		var client = await GetAuthenticatedClient();
+		return await client.GetStatus();
+	}
 
-    private async Task<Client> GetAuthenticatedClient()
-    {
-        var client = new Client(new Settings
-        {
-            ApiUrl = settings.ApiUrl,
-            Login = settings.Username,
-            Password = settings.Password,
-        });
+	private async Task<Client> GetAuthenticatedClient()
+	{
+		var client = new Client(new Settings
+		{
+			ApiUrl = settings.ApiUrl,
+			Login = settings.Username,
+			Password = settings.Password,
+		});
 
-        await client.Login();
-        return client;
-    }
+		await client.Login();
+		return client;
+	}
 
-    public override void KeyReleased(KeyPayload payload) { }
+	public override void KeyReleased(KeyPayload payload) { }
 
-    public override async void OnTick()
-    {
-        if ((DateTime.Now - lastRefresh).TotalSeconds >= settings.RefreshSeconds) // Delay added if market is closed to preserve API calls
-        {
-            try
-            {
-                lastRefresh = DateTime.Now;
-                await DrawStatus(await GetStatus());
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogMessage(TracingLevel.ERROR, $"{this.GetType()} OnTick Exception: {ex}");
-            }
-        }
-    }
+	public override async void OnTick()
+	{
+		if ((DateTime.Now - lastRefresh).TotalSeconds >= settings.RefreshSeconds) // Delay added if market is closed to preserve API calls
+		{
+			try
+			{
+				lastRefresh = DateTime.Now;
+				await DrawStatus(await GetStatus());
+			}
+			catch (Exception ex)
+			{
+				Logger.Instance.LogMessage(TracingLevel.ERROR, $"{this.GetType()} OnTick Exception: {ex}");
+			}
+		}
+	}
 
     public override void ReceivedSettings(ReceivedSettingsPayload payload)
     {
@@ -164,19 +164,19 @@ public class StatusToggle : PluginBase
         }
     }
 
-    public override void ReceivedGlobalSettings(ReceivedGlobalSettingsPayload payload) { }
+	public override void ReceivedGlobalSettings(ReceivedGlobalSettingsPayload payload) { }
 
-    #region Private Methods
+	#region Private Methods
 
-    private Task SaveSettings()
-    {
-        return Connection.SetSettingsAsync(JObject.FromObject(settings));
-    }
+	private Task SaveSettings()
+	{
+		return Connection.SetSettingsAsync(JObject.FromObject(settings));
+	}
 
-    private async Task DrawStatus(UserStatus status)
-    {
-        const int STARTING_TEXT_Y = 5;
-        using Bitmap bmp = Tools.GenerateGenericKeyImage(out Graphics graphics);
+	private async Task DrawStatus(UserStatus status)
+	{
+		const int STARTING_TEXT_Y = 5;
+		using Bitmap bmp = Tools.GenerateGenericKeyImage(out Graphics graphics);
 
         int height = bmp.Height;
         int width = bmp.Width;
@@ -185,40 +185,40 @@ public class StatusToggle : PluginBase
         string imagePath = "unknown";
         Font fontStock = new("Verdana", 22, FontStyle.Bold, GraphicsUnit.Pixel);
 
-        float stringHeight = STARTING_TEXT_Y;
+		float stringHeight = STARTING_TEXT_Y;
 
-        switch (status)
-        {
-            case UserStatus.Online:
-                statusText = "Online";
-                stockBrush = Brushes.Green;
-                imagePath = "online";
-                break;
-            case UserStatus.Away:
-                statusText = "Away";
-                stockBrush = Brushes.Goldenrod;
-                imagePath = "away";
-                break;
-            case UserStatus.DoNotDisturb:
-                statusText = "Do not disturb";
-                stockBrush = Brushes.DarkRed;
-                imagePath = "dnd";
-                break;
-            case UserStatus.Offline:
-                statusText = "Offline";
-                stockBrush = Brushes.White;
-                imagePath = "offline";
-                break;
-        }
+		switch (status)
+		{
+			case UserStatus.Online:
+				statusText = "Online";
+				stockBrush = Brushes.Green;
+				imagePath = "online";
+				break;
+			case UserStatus.Away:
+				statusText = "Away";
+				stockBrush = Brushes.Goldenrod;
+				imagePath = "away";
+				break;
+			case UserStatus.DoNotDisturb:
+				statusText = "Do not disturb";
+				stockBrush = Brushes.DarkRed;
+				imagePath = "dnd";
+				break;
+			case UserStatus.Offline:
+				statusText = "Offline";
+				stockBrush = Brushes.White;
+				imagePath = "offline";
+				break;
+		}
 
-        float stringWidth = graphics.GetTextCenter(statusText, width, fontStock);
-        stringHeight = graphics.DrawAndMeasureString(statusText, fontStock, stockBrush, new PointF(stringWidth, stringHeight));
-        imagePath += (height > 120 - stringHeight) ? "@2x" : "";
+		float stringWidth = graphics.GetTextCenter(statusText, width, fontStock);
+		stringHeight = graphics.DrawAndMeasureString(statusText, fontStock, stockBrush, new PointF(stringWidth, stringHeight));
+		imagePath += (height > 120 - stringHeight) ? "@2x" : "";
 
-        Image image = Image.FromFile(@$"images\{imagePath}.png");
-        graphics.DrawImage(image, (width - image.Width) / 2, stringHeight);
-        await Connection.SetImageAsync(bmp);
-        fontStock.Dispose();
-    }
-    #endregion
+		Image image = Image.FromFile(@$"images\{imagePath}.png");
+		graphics.DrawImage(image, (width - image.Width) / 2, stringHeight);
+		await Connection.SetImageAsync(bmp);
+		fontStock.Dispose();
+	}
+	#endregion
 }

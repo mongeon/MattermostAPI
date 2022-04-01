@@ -8,11 +8,11 @@ public enum UserStatus
 {
     Unknown = 0,
     [EnumMember(Value = "online")]
-    Online,
+    Online = 1,
     [EnumMember(Value = "away")]
-    Away,
+    Away = 2,
     [EnumMember(Value = "dnd")]
-    DoNotDisturb,
+    DoNotDisturb = 3,
     [EnumMember(Value = "offline")]
-    Offline
+    Offline = 4
 }

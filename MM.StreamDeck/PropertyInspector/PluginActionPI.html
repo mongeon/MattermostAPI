@@ -24,14 +24,6 @@
             <div class="sdpi-item-label">Password</div>
             <input class="sdpi-item-value sdProperty" type="password" value="" id="password" oninput="setSettings()">
         </div>
-        
-        <div class="sdpi-item" id="dvIsToggle">
-            <div class="sdpi-item-value">
-                <input id="isToggle" class="sdProperty sdCheckbox" type="checkbox" value="" oninput="setSettings()">
-                <label for="isToggle" class="sdpi-item-label"><span></span>Toggle between status?</label>
-            </div>
-        </div>
-
         <div class="sdpi-item">
             <div class="sdpi-item-label">Refresh Rate</div>
             <select class="sdpi-item-value select sdProperty" id="refreshSeconds" oninput="setSettings()">
@@ -46,6 +38,30 @@
                 <option value="3600">1 Hour</option>
             </select>
         </div>
+
+        <div class="sdpi-item" id="dvIsToggle">
+            <div class="sdpi-item-value">
+                <input id="isToggle" class="sdProperty sdCheckbox" type="checkbox" value="" oninput="setSettings()">
+                <label for="isToggle" class="sdpi-item-label"><span></span>Toggle between status?</label>
+            </div>
+        </div>
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Toggle Status between Online and </div>
+            <select class="sdpi-item-value select sdProperty" id="toggleStatus" oninput="setSettings()">
+                <option value="2" selected>Away</option>
+                <option value="3">Do not disturb</option>
+                <option value="4">Offline</option>
+            </select>
+        </div>  
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Dot not disturb duration</div>
+            <select class="sdpi-item-value select sdProperty" id="dndDuration" oninput="setSettings()">
+                <option value="30" selected>30 minutes</option>
+                <option value="60">1 hour</option>
+                <option value="120">2 hours</option>                
+                <option value="1440">24 hours</option>
+            </select>
+        </div>     
 
     </div>
 </body>
