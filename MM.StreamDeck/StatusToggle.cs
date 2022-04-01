@@ -1,11 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using BarRaider.SdTools;
+﻿using BarRaider.SdTools;
 using MM.Api;
+using MM.Api.Status;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using MM.Api.Status;
+using System;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace MM.StreamDeck;
 
@@ -25,6 +25,8 @@ public class StatusToggle : PluginBase
                 Password = string.Empty,
                 ApiUrl = string.Empty,
                 IsToggle = false,
+                DndDuration = 60,
+                ToggleStatus = UserStatus.Away,
             };
             return instance;
         }
@@ -45,6 +47,11 @@ public class StatusToggle : PluginBase
         public string ApiUrl { get; set; }
         [JsonProperty(PropertyName = "isToggle")]
         public bool IsToggle { get; set; }
+        [JsonProperty(PropertyName = "toggleStatus")]
+        public UserStatus ToggleStatus { get; set; }
+
+        [JsonProperty(PropertyName = "dndDuration")]
+        public int DndDuration { get; set; }
     }
 
     #region Private Members
@@ -62,7 +69,14 @@ public class StatusToggle : PluginBase
         }
         else
         {
-            this.settings = payload.Settings.ToObject<PluginSettings>();
+            try
+            {
+                this.settings = payload.Settings.ToObject<PluginSettings>();
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogMessage(TracingLevel.ERROR, $"{this.GetType()} Constructor Exception: {ex}");
+            }
         }
     }
 
@@ -84,18 +98,20 @@ public class StatusToggle : PluginBase
         {
             await DrawStatus(await GetStatus());
         }
-        
     }
+
     private async Task<UserStatus> ToggleStatus()
     {
+        Logger.Instance.LogMessage(TracingLevel.INFO, "ToggleStatus called");
         var status = await GetStatus();
         var newStatus = UserStatus.Online;
         if (status == UserStatus.Online)
         {
-            newStatus = UserStatus.Away;
+            newStatus = settings.ToggleStatus;
         }
+        Logger.Instance.LogMessage(TracingLevel.INFO, $"New status: {newStatus}");
         var client = await GetAuthenticatedClient();
-        return await client.UpdateUserStatus(newStatus);
+        return await client.UpdateUserStatus(newStatus, settings.DndDuration);
     }
 
     private async Task<UserStatus> GetStatus()
@@ -137,8 +153,15 @@ public class StatusToggle : PluginBase
 
     public override void ReceivedSettings(ReceivedSettingsPayload payload)
     {
-        Tools.AutoPopulateSettings(settings, payload.Settings);
-        SaveSettings();
+        try
+        {
+            Tools.AutoPopulateSettings(settings, payload.Settings);
+            SaveSettings();
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.LogMessage(TracingLevel.ERROR, $"{this.GetType()} ReceivedSettings Exception: {ex}");
+        }
     }
 
     public override void ReceivedGlobalSettings(ReceivedGlobalSettingsPayload payload) { }
@@ -160,7 +183,7 @@ public class StatusToggle : PluginBase
         Brush stockBrush = Brushes.Blue;
         string statusText = "Unknown";
         string imagePath = "unknown";
-        Font fontStock = new Font("Verdana", 22, FontStyle.Bold, GraphicsUnit.Pixel);
+        Font fontStock = new("Verdana", 22, FontStyle.Bold, GraphicsUnit.Pixel);
 
         float stringHeight = STARTING_TEXT_Y;
 
