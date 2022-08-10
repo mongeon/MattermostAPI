@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43ADBA64-6B83-4F9B-A861-9351C7295858}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		LICENSE = LICENSE
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MM.StreamDeck", "MM.StreamDeck\MM.StreamDeck.csproj", "{4635D874-69C0-4010-BE46-77EF92EB1553}"
