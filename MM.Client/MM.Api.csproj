@@ -3,8 +3,24 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Mongeon.MM.API.Client</PackageId>
+    <Authors>Gabriel Mongeon</Authors>
+    <Company>Gabriel Mongeon</Company>
+    <Product>Mongeon.MM.API.Client</Product>
+    <Description>A Mattermost API client</Description>
+    <Copyright>@Gabriel Mongeon</Copyright>
+    <RepositoryUrl>https://github.com/mongeon/MattermostAPI.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/mongeon/MattermostAPI</PackageProjectUrl>
+    <PackageTags>Mattermost</PackageTags>
+	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <Version>0.0.1-beta</Version>
+	  
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Macross.Json.Extensions" Version="2.2.0" />
+    <None Include="..\LICENSE" Link="LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Macross.Json.Extensions" Version="3.0.0" />
+	</ItemGroup>
 </Project>
