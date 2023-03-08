@@ -14,7 +14,8 @@
     <PackageProjectUrl>https://github.com/mongeon/MattermostAPI</PackageProjectUrl>
     <PackageTags>Mattermost</PackageTags>
 	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
-	  <Version>0.0.1-beta</Version>
+	  <Version>0.0.2-beta</Version>
+	  <IncludeSymbols>True</IncludeSymbols>
 	  
   </PropertyGroup>
   <ItemGroup>
